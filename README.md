@@ -1,16 +1,19 @@
+Voici l'intégralité du contenu corrigé, prêt à copier-coller directement dans votre README.md:[1][2]
+
+```markdown
 # 🚀 Customer Analytics & Churn Prediction MLOps Platform
 
-![MLOps Architecture](https://img.shields.io/badge/MLOps-Platform-blue)
+![MLOps Platform](https://img.shields.io/badge/MLOps-Platform-blue)
 ![Docker](https://img.shields.io/badge/Docker-Compose-green)
 ![Python](https://img.shields.io/badge/Python-3.9-yellow)
 ![Airflow](https://img.shields.io/badge/Airflow-2.7-red)
 ![MLflow](https://img.shields.io/badge/MLflow-2.8-orange)
 
-A complete MLOps pipeline for customer churn prediction with automated training, experiment tracking, and real-time monitoring.
+Une plateforme MLOps complète pour la prédiction du churn client avec entraînement automatisé, suivi d'expérimentations et monitoring en temps réel.
 
 ## 📊 Architecture
 
-```mermaid
+```
 graph TB
     A[Airflow Orchestrator] --> B[Data Processing]
     B --> C[Model Training]
@@ -23,306 +26,310 @@ graph TB
     I[Streamlit UI] --> F
 ```
 
-🏗️ Tech Stack
-Component	Purpose	Technology
-Orchestration	Workflow automation	Apache Airflow 2.7
-Experiment Tracking	ML model versioning	MLflow 2.8
-Artifact Storage	Model storage	MinIO (S3-compatible)
-Visualization	Real-time dashboard	Streamlit
-Metadata Storage	Experiment metadata	PostgreSQL 13
-Containerization	Service isolation	Docker Compose
-🚀 Quick Start
-Prerequisites
-Docker 20.10+ & Docker Compose 2.0+
+## 🏗️ Stack Technologique
 
-Git
+| Composant | Utilisation | Technologie |
+|-----------|-------------|-------------|
+| Orchestration | Automatisation des workflows | Apache Airflow 2.7 |
+| Suivi d'expériences | Versioning des modèles ML | MLflow 2.8 |
+| Stockage d'artefacts | Stockage des modèles | MinIO (compatible S3) |
+| Visualisation | Dashboard temps réel | Streamlit |
+| Stockage métadonnées | Métadonnées des expériences | PostgreSQL 13 |
+| Conteneurisation | Isolation des services | Docker Compose |
 
-8GB+ RAM recommended
+## 🚀 Démarrage Rapide
 
-Installation
-bash
-# Clone the repository
+### Prérequis
+
+- Docker 20.10+ et Docker Compose 2.0+
+- Git
+- 8GB+ RAM recommandés
+
+### Installation
+
+```
+# Cloner le dépôt
 git clone https://github.com/YOUSSEF-BT/customer-mlops-pipeline.git
 cd customer-mlops-pipeline
 
-# Start all services
+# Démarrer tous les services
 docker-compose up -d
 
-# Wait for services to start
+# Attendre le démarrage des services (environ 45 secondes)
 sleep 45
 
-# Initialize Airflow database and create admin user
+# Initialiser la base de données Airflow et créer l'utilisateur admin
 docker-compose exec airflow-webserver airflow db init
 docker-compose exec airflow-webserver airflow users create \
-    --username admin --password admin \
-    --firstname Admin --lastname User \
-    --role Admin --email admin@example.com
-    
-📁 Project Structure
-
-```mermaid
-customer-mlops-pipeline/
-├── airflow/                 # Airflow configuration
-│   ├── dags/              # Pipeline DAGs
-│   ├── Dockerfile         # Airflow container
-│   └── requirements.txt   # Python dependencies
-├── mlflow/                # MLflow tracking server
-│   └── Dockerfile         # MLflow container
-├── streamlit/             # Streamlit dashboard
-│   ├── Dockerfile         # Streamlit container
-│   ├── requirements.txt   # Python dependencies
-│   └── streamlit_app.py   # Dashboard application
-├── training_pipeline/     # Model training scripts
-│   ├── config.yaml       # Configuration file
-│   └── src/train_model.py # Training pipeline
-├── data/                  # Sample data (gitignored)
-├── models/               # Trained models (gitignored)
-├── docker-compose.yml    # Complete service orchestration
-├── .gitignore           # Git ignore file
-├── LICENSE              # MIT License
-└── README.md           # This file
+    --username admin \
+    --password admin \
+    --firstname Admin \
+    --lastname User \
+    --role Admin \
+    --email admin@example.com
 ```
 
-🔧 Services Configuration
-Service	Port	Default Credentials	Purpose
-Airflow Webserver	8080	admin/admin	Workflow orchestration UI
-Airflow Scheduler	-	-	Task scheduling
-MLflow	5001	-	Experiment tracking UI
-MinIO	9000	minioadmin/minioadmin	Object storage API
-MinIO Console	9001	minioadmin/minioadmin	Storage management UI
-Streamlit	8502	-	Real-time dashboard
-Adminer	8081	-	Database management UI
-PostgreSQL (Airflow)	5432	airflow/airflow	Airflow metadata
-PostgreSQL (MLflow)	5432	mlflow/mlflow	MLflow metadata
-📈 Features
-✅ Complete MLOps Pipeline
-Automated Data Processing: Data ingestion, cleaning, and feature engineering
+## 📁 Structure du Projet
 
-Model Training: Multiple algorithms with hyperparameter tuning
+```
+customer-mlops-pipeline/
+├── airflow/                  # Configuration Airflow
+│   ├── dags/                # DAGs du pipeline
+│   ├── Dockerfile           # Conteneur Airflow
+│   └── requirements.txt     # Dépendances Python
+├── mlflow/                  # Serveur de tracking MLflow
+│   └── Dockerfile           # Conteneur MLflow
+├── streamlit/               # Dashboard Streamlit
+│   ├── Dockerfile           # Conteneur Streamlit
+│   ├── requirements.txt     # Dépendances Python
+│   └── streamlit_app.py     # Application dashboard
+├── training_pipeline/       # Scripts d'entraînement
+│   ├── config.yaml         # Fichier de configuration
+│   └── src/train_model.py  # Pipeline d'entraînement
+├── data/                    # Données d'exemple (gitignored)
+├── models/                  # Modèles entraînés (gitignored)
+├── docker-compose.yml       # Orchestration complète
+├── .gitignore              # Fichier d'exclusion Git
+├── LICENSE                 # Licence MIT
+└── README.md              # Ce fichier
+```
 
-Experiment Tracking: Full MLflow integration for reproducibility
+## 🔧 Configuration des Services
 
-Artifact Versioning: Model storage in MinIO with version control
+| Service | Port | Identifiants par défaut | Utilisation |
+|---------|------|------------------------|-------------|
+| Airflow Webserver | 8080 | admin/admin | Interface d'orchestration |
+| Airflow Scheduler | - | - | Planification des tâches |
+| MLflow | 5001 | - | Interface de tracking |
+| MinIO | 9000 | minioadmin/minioadmin | API de stockage |
+| MinIO Console | 9001 | minioadmin/minioadmin | Interface de gestion |
+| Streamlit | 8502 | - | Dashboard temps réel |
+| Adminer | 8081 | - | Interface de gestion DB |
+| PostgreSQL (Airflow) | 5432 | airflow/airflow | Métadonnées Airflow |
+| PostgreSQL (MLflow) | 5432 | mlflow/mlflow | Métadonnées MLflow |
 
-Real-time Monitoring: Live dashboard with Streamlit
+## 📈 Fonctionnalités
 
-✅ Scalable Architecture
-Microservices: Each component runs in isolated containers
+### ✅ Pipeline MLOps Complet
 
-Persistent Storage: PostgreSQL for metadata, MinIO for artifacts
+- **Traitement automatisé des données** : Ingestion, nettoyage et feature engineering
+- **Entraînement de modèles** : Algorithmes multiples avec tuning d'hyperparamètres
+- **Suivi d'expériences** : Intégration complète MLflow pour la reproductibilité
+- **Versioning d'artefacts** : Stockage des modèles dans MinIO avec contrôle de version
+- **Monitoring temps réel** : Dashboard live avec Streamlit
 
-Network Isolation: Secure internal networking between services
+### ✅ Architecture Scalable
 
-Health Checks: Automatic service monitoring and restart
+- **Microservices** : Chaque composant s'exécute dans des conteneurs isolés
+- **Stockage persistant** : PostgreSQL pour les métadonnées, MinIO pour les artefacts
+- **Isolation réseau** : Réseau interne sécurisé entre services
+- **Health checks** : Monitoring automatique et redémarrage des services
 
-✅ Monitoring & Visualization
-Streamlit Dashboard: Interactive customer analytics and predictions
+### ✅ Monitoring & Visualisation
 
-MLflow UI: Experiment comparison and model registry
+- **Dashboard Streamlit** : Analytics clients interactifs et prédictions
+- **Interface MLflow** : Comparaison d'expériences et registre de modèles
+- **Interface Airflow** : Monitoring des pipelines et déclenchement manuel
+- **Console MinIO** : Gestion du stockage d'artefacts
 
-Airflow UI: Pipeline monitoring and manual triggering
+## 🎯 Guide d'Utilisation
 
-MinIO Console: Artifact storage management
+### Étape 1 : Démarrer la Plateforme
 
-🎯 Usage Guide
-Step 1: Start the Platform
-bash
-# Start all services
+```
+# Démarrer tous les services
 docker-compose up -d
 
-# Check service status
+# Vérifier l'état des services
 docker-compose ps
 
-# View logs
+# Consulter les logs
 docker-compose logs -f
-Step 2: Access Interfaces
-Airflow UI: http://localhost:8080 (admin/admin)
+```
 
-MLflow UI: http://localhost:5001
+### Étape 2 : Accéder aux Interfaces
 
-Streamlit Dashboard: http://localhost:8502
+- **Airflow UI** : http://localhost:8080 (admin/admin)
+- **MLflow UI** : http://localhost:5001
+- **Dashboard Streamlit** : http://localhost:8502
+- **Console MinIO** : http://localhost:9001 (minioadmin/minioadmin)
 
-MinIO Console: http://localhost:9001 (minioadmin/minioadmin)
+### Étape 3 : Configurer le Stockage d'Artefacts MLflow
 
-Step 3: Configure MLflow Artifact Storage
-bash
-# Setup MinIO bucket for MLflow
+```
+# Configurer le bucket MinIO pour MLflow
 docker-compose exec minio mc alias set myminio http://localhost:9000 minioadmin minioadmin
 docker-compose exec minio mc mb myminio/mlflow-artifacts
-Step 4: Run the Training Pipeline
-Go to Airflow UI (http://localhost:8080)
+```
 
-Find DAG: churn_mlops_pipeline
+### Étape 4 : Exécuter le Pipeline d'Entraînement
 
-Toggle activation switch (ON)
+1. Accéder à l'interface Airflow (http://localhost:8080)
+2. Trouver le DAG : `churn_mlops_pipeline`
+3. Activer le DAG (bouton ON)
+4. Cliquer sur le bouton de déclenchement
+5. Surveiller l'exécution dans la vue Graph
 
-Click trigger button (▶️)
+### Étape 5 : Visualiser les Résultats
 
-Monitor execution in Graph View
+- **MLflow** : Suivre les expériences, comparer les modèles, consulter les métriques
+- **Streamlit** : Visualiser les prédictions, segments clients et performances
+- **MinIO** : Parcourir les modèles et artefacts stockés
 
-Step 5: View Results
-MLflow: Track experiments, compare models, view metrics
+## 🛠️ Développement
 
-Streamlit: Visualize predictions, customer segments, model performance
+### Ajouter de Nouveaux Modèles
 
-MinIO: Browse stored models and artifacts
+1. Modifier `training_pipeline/src/train_model.py`
+2. Mettre à jour `training_pipeline/config.yaml`
+3. Tester localement : `python train_model.py`
+4. Committer et pousser les modifications
 
-🛠️ Development
-Adding New Models
-Modify training_pipeline/src/train_model.py
+### Modifier le Dashboard
 
-Update training_pipeline/config.yaml
+1. Éditer `streamlit/streamlit_app.py`
+2. Mettre à jour `streamlit/requirements.txt`
+3. Rebuilder : `docker-compose build streamlit-app`
+4. Redémarrer : `docker-compose up -d streamlit-app`
 
-Test locally: python train_model.py
+### Ajouter de Nouveaux DAGs
 
-Commit changes and push
+1. Ajouter un fichier Python dans `airflow/dags/`
+2. Suivre les bonnes pratiques Airflow
+3. Tester dans l'interface Airflow
 
-Modifying the Dashboard
-Edit streamlit/streamlit_app.py
+## 🔍 Dépannage
 
-Update dependencies in streamlit/requirements.txt
+### Problèmes Courants
 
-Rebuild: docker-compose build streamlit-app
+**MLflow ne démarre pas** :
 
-Restart: docker-compose up -d streamlit-app
-
-Adding New DAGs
-Add Python file to airflow/dags/
-
-Follow Airflow DAG best practices
-
-Test in Airflow UI
-
-🔍 Troubleshooting
-Common Issues
-MLflow won't start:
-
-bash
-# Check PostgreSQL connection
+```
+# Vérifier la connexion PostgreSQL
 docker-compose exec postgres-mlflow psql -U mlflow -d mlflowdb -c "SELECT 1;"
 
-# Rebuild MLflow service
+# Rebuilder le service MLflow
 docker-compose build --no-cache mlflow
 docker-compose up -d mlflow
-Airflow database errors:
+```
 
-bash
-# Initialize Airflow database
+**Erreurs de base de données Airflow** :
+
+```
+# Initialiser la base de données Airflow
 docker-compose exec airflow-webserver airflow db init
 
-# Create admin user (if not exists)
+# Créer l'utilisateur admin (si inexistant)
 docker-compose exec airflow-webserver airflow users create \
-    --username admin --password admin \
-    --firstname Admin --lastname User \
-    --role Admin --email admin@example.com
-MinIO bucket permissions:
+    --username admin \
+    --password admin \
+    --firstname Admin \
+    --lastname User \
+    --role Admin \
+    --email admin@example.com
+```
 
-bash
-# Make bucket public (for development)
+**Permissions du bucket MinIO** :
+
+```
+# Rendre le bucket public (développement uniquement)
 docker-compose exec minio mc anonymous set public myminio/mlflow-artifacts
-Service Logs
-bash
-# View specific service logs
+```
+
+### Logs des Services
+
+```
+# Consulter les logs d'un service spécifique
 docker-compose logs mlflow
 docker-compose logs airflow-webserver
 docker-compose logs streamlit-app
 
-# Follow logs in real-time
+# Suivre les logs en temps réel
 docker-compose logs -f mlflow
-Resource Issues
-bash
-# Check resource usage
+```
+
+### Problèmes de Ressources
+
+```
+# Vérifier l'utilisation des ressources
 docker stats
 
-# Stop all services
+# Arrêter tous les services
 docker-compose down
 
-# Remove volumes (WARNING: deletes all data)
+# Supprimer les volumes (ATTENTION : supprime toutes les données)
 docker-compose down -v
-🤝 Contributing
-Fork the repository
+```
 
-Create a feature branch (git checkout -b feature/AmazingFeature)
+## 🤝 Contribuer
 
-Commit changes (git commit -m 'Add AmazingFeature')
+1. Forker le dépôt
+2. Créer une branche feature (`git checkout -b feature/NouvelleFonctionnalite`)
+3. Committer les modifications (`git commit -m 'Ajout NouvelleFonctionnalite'`)
+4. Pousser vers la branche (`git push origin feature/NouvelleFonctionnalite`)
+5. Ouvrir une Pull Request
 
-Push to branch (git push origin feature/AmazingFeature)
+### Guidelines de Développement
 
-Open a Pull Request
+- Suivre PEP 8 pour le code Python
+- Ajouter des docstrings pour les fonctions et classes
+- Mettre à jour la documentation lors de modifications
+- Tester localement avant de soumettre une PR
 
-Development Guidelines
-Follow PEP 8 for Python code
+## 📄 Licence
 
-Add docstrings for functions and classes
+Ce projet est sous licence MIT - voir le fichier LICENSE pour plus de détails.
 
-Update documentation when changing features
+## 👤 Auteur
 
-Test changes locally before submitting PR
+**YOUSSEF-BT**
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+- GitHub : [@YOUSSEF-BT](https://github.com/YOUSSEF-BT)
+- Projet : [Customer MLOps Pipeline](https://github.com/YOUSSEF-BT/customer-mlops-pipeline)
 
-👤 Author
-YOUSSEF-BT
+## 🙏 Remerciements
 
-GitHub: @YOUSSEF-BT
+- L'équipe Apache Airflow pour l'orchestration des workflows
+- L'équipe MLflow pour le suivi d'expériences
+- L'équipe Streamlit pour le développement rapide de dashboards
+- L'équipe MinIO pour le stockage compatible S3
+- La communauté Docker pour la conteneurisation
 
-Project: Customer MLOps Pipeline
+## 📚 Références
 
-🙏 Acknowledgments
-Apache Airflow team for workflow orchestration
+- [Documentation Airflow](https://airflow.apache.org/docs/)
+- [Documentation MLflow](https://mlflow.org/docs/latest/index.html)
+- [Documentation Streamlit](https://docs.streamlit.io/)
+- [Documentation MinIO](https://min.io/docs/minio/linux/index.html)
+- [Documentation Docker Compose](https://docs.docker.com/compose/)
 
-MLflow team for experiment tracking
+## 📊 Métriques de Performance
 
-Streamlit team for rapid dashboard development
+| Métrique | Valeur | Description |
+|----------|--------|-------------|
+| Temps de démarrage | ~2 minutes | Temps pour que tous les services soient prêts |
+| Entraînement modèle | ~5-10 minutes | Exécution complète du pipeline |
+| Stockage | 2GB+ | Estimé pour 1000+ expériences |
+| Utilisateurs simultanés | 10+ | Dashboard et monitoring |
 
-MinIO team for S3-compatible storage
+## 🔄 Intégration Continue
 
-Docker community for containerization
+Cette plateforme inclut :
 
-📚 References
-Airflow Documentation
+- Docker Compose pour le développement local
+- PostgreSQL pour les métadonnées persistantes
+- MinIO pour le stockage scalable d'artefacts
+- Health checks pour tous les services
 
-MLflow Documentation
+### Prochaines Étapes
 
-Streamlit Documentation
+- Déploiement cloud (AWS/Azure/GCP)
+- Ajout d'un pipeline CI/CD
+- Implémentation du monitoring de modèles
 
-MinIO Documentation
+---
 
-Docker Compose Documentation
+⭐️ **Donnez une étoile si ce projet vous a aidé !**
 
-🌟 Show Your Support
-Give a ⭐️ if this project helped you!
-
-Happy MLOps Engineering! 🚀
-
-Built with ❤️ by YOUSSEF-BT
-
-📊 Performance Metrics
-Metric	Value	Description
-Startup Time	~2 minutes	Time for all services to be ready
-Model Training	~5-10 minutes	Full pipeline execution
-Storage	2GB+	Estimated for 1000+ experiments
-Concurrent Users	10+	Dashboard and monitoring
-🔄 Continuous Integration
-This project includes:
-
-Docker Compose for local development
-
-PostgreSQL for persistent metadata
-
-MinIO for scalable artifact storage
-
-Health checks for all services
-
-Next Steps:
-
-Deploy to cloud (AWS/Azure/GCP)
-
-Add CI/CD pipeline
-
-Implement model monitoring
-
-Add A/B testing capabilities
-
-Last Updated: December 2024
+Développé avec ❤️ par YOUSSEF-BT
+```
