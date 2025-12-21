@@ -10,7 +10,6 @@ A complete MLOps pipeline for customer churn prediction with automated training,
 
 ## 📊 Architecture
 
-```mermaid
 graph TB
     A[Airflow Orchestrator] --> B[Data Processing]
     B --> C[Model Training]
@@ -19,13 +18,9 @@ graph TB
     D --> F[Streamlit Dashboard]
     G[PostgreSQL] --> D
     G --> A
-    
     H[MinIO Storage] --> E
     I[Streamlit UI] --> F
-    
-    style A fill:#f9f
-    style D fill:#ccf
-    style F fill:#9cf
+
 🏗️ Tech Stack
 Component	Purpose	Technology
 Orchestration	Workflow automation	Apache Airflow 2.7
