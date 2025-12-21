@@ -1,6 +1,3 @@
-Voici l'intégralité du contenu corrigé, prêt à copier-coller directement dans votre README.md:[1][2]
-
-```markdown
 # 🚀 Customer Analytics & Churn Prediction MLOps Platform
 
 ![MLOps Platform](https://img.shields.io/badge/MLOps-Platform-blue)
