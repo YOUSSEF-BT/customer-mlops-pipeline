@@ -57,8 +57,10 @@ docker-compose exec airflow-webserver airflow users create \
     --username admin --password admin \
     --firstname Admin --lastname User \
     --role Admin --email admin@example.com
+    
 📁 Project Structure
-text
+
+```mermaid
 customer-mlops-pipeline/
 ├── airflow/                 # Airflow configuration
 │   ├── dags/              # Pipeline DAGs
@@ -79,6 +81,8 @@ customer-mlops-pipeline/
 ├── .gitignore           # Git ignore file
 ├── LICENSE              # MIT License
 └── README.md           # This file
+```
+
 🔧 Services Configuration
 Service	Port	Default Credentials	Purpose
 Airflow Webserver	8080	admin/admin	Workflow orchestration UI
