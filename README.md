@@ -329,4 +329,3 @@ Cette plateforme inclut :
 ⭐️ **Donnez une étoile si ce projet vous a aidé !**
 
 Développé avec ❤️ par YOUSSEF-BT
-```
