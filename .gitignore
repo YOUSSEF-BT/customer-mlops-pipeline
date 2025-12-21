@@ -1,0 +1,46 @@
+# Environnement
+.env
+.env.local
+.env.production
+
+# Docker
+docker-compose.yml.broken
+docker-compose.yml.backup
+*.backup
+
+# Volumes Docker
+postgres-airflow-data/
+postgres-mlflow-data/
+minio-data/
+
+# Données sensibles
+data/
+models/
+airflow/logs/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Secrets
+*.pem
+*.key
+*.crt
+*.p12
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Fichiers temporaires
+tmp/
+temp/

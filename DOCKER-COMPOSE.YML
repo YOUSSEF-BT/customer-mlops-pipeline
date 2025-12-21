@@ -1,0 +1,149 @@
+services:
+  postgres-airflow:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - postgres-airflow-data:/var/lib/postgresql/data
+    networks:
+      - mlops-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U airflow" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-mlflow:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflowdb
+    volumes:
+      - postgres-mlflow-data:/var/lib/postgresql/data
+    networks:
+      - mlops-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U mlflow" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - mlops-network
+
+  mlflow:
+    build: ./mlflow
+    environment:
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      GUNICORN_CMD_ARGS: "--workers=2 --timeout=120"
+    ports:
+      - "5001:5000"
+    depends_on:
+      postgres-mlflow:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    networks:
+      - mlops-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --spider http://localhost:5000/health || exit 0"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  airflow-webserver:
+    build: ./airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+      AIRFLOW__CORE__FERNET_KEY: 46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./training_pipeline:/opt/airflow/training_pipeline
+      - ./data:/opt/airflow/data
+      - ./models:/opt/airflow/models
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres-airflow:
+        condition: service_healthy
+    networks:
+      - mlops-network
+    command: airflow webserver --port 8080
+
+  airflow-scheduler:
+    build: ./airflow
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+      AIRFLOW__CORE__FERNET_KEY: 46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+      - ./training_pipeline:/opt/airflow/training_pipeline
+      - ./data:/opt/airflow/data
+      - ./models:/opt/airflow/models
+    depends_on:
+      - postgres-airflow
+      - airflow-webserver
+    networks:
+      - mlops-network
+    command: scheduler
+
+  streamlit-app:
+    build: ./streamlit
+    ports:
+      - "8502:8501"
+    volumes:
+      - ./streamlit:/app
+      - ./models:/app/models
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    networks:
+      - mlops-network
+
+  adminer:
+    image: adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - mlops-network
+
+networks:
+  mlops-network:
+    driver: bridge
+
+volumes:
+  postgres-airflow-data:
+  postgres-mlflow-data:
+  minio-data:
