@@ -9,6 +9,7 @@
 A complete MLOps pipeline for customer churn prediction with automated training, experiment tracking, and real-time monitoring.
 
 ## 📊 Architecture
+
 ```mermaid
 graph TB
     A[Airflow Orchestrator] --> B[Data Processing]
@@ -20,6 +21,7 @@ graph TB
     G --> A
     H[MinIO Storage] --> E
     I[Streamlit UI] --> F
+```
 
 🏗️ Tech Stack
 Component	Purpose	Technology
