@@ -23,9 +23,9 @@ graph TB
     H[MinIO Storage] --> E
     I[Streamlit UI] --> F
     
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style D fill:#ccf,stroke:#333,stroke-width:2px
-    style F fill:#9cf,stroke:#333,stroke-width:2px
+    style A fill:#f9f
+    style D fill:#ccf
+    style F fill:#9cf
 🏗️ Tech Stack
 Component	Purpose	Technology
 Orchestration	Workflow automation	Apache Airflow 2.7
