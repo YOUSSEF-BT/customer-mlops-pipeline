@@ -9,7 +9,7 @@
 A complete MLOps pipeline for customer churn prediction with automated training, experiment tracking, and real-time monitoring.
 
 ## 📊 Architecture
-
+```mermaid
 graph TB
     A[Airflow Orchestrator] --> B[Data Processing]
     B --> C[Model Training]
