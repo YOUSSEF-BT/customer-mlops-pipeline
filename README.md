@@ -318,12 +318,6 @@ Cette plateforme inclut :
 - MinIO pour le stockage scalable d'artefacts
 - Health checks pour tous les services
 
-### Prochaines Étapes
-
-- Déploiement cloud (AWS/Azure/GCP)
-- Ajout d'un pipeline CI/CD
-- Implémentation du monitoring de modèles
-
 ---
 
 ⭐️ **Donnez une étoile si ce projet vous a aidé !**
