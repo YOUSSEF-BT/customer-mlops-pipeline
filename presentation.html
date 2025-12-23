@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Pipeline - Présentation Finale</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
+        /* Theme Variables */
+        :root {
+            --color-primary: #0ea5e9;
+            --color-secondary: #06b6d4;
+            --color-accent: #ec4899;
+            --color-bg-dark: #0f172a;
+            --color-bg-darker: #020617;
+            --color-surface: #1e293b;
+            --color-text-light: #f1f5f9;
+            --color-text-muted: #cbd5e1;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: var(--color-bg-dark);
+        }
+
+        /* Slide Container */
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Layout Utilities */
+        .row { flex-direction: row; }
+        .col { flex-direction: column; }
+        .center {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-between { justify-content: space-between; }
+        .fill-width { flex: 1; }
+        .fill-height { flex: 1; display: flex; flex-direction: column; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+
+        /* Spacing */
+        .p-16 { padding: 4rem; }
+        .p-12 { padding: 3rem; }
+        .p-8 { padding: 2rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.25rem; }
+        h3 { font-size: 1.5rem; }
+        h4 { font-size: 1.25rem; }
+
+        .text-6xl { font-size: 3.75rem; }
+        .text-5xl { font-size: 3rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-base { font-size: 1rem; }
+        .text-sm { font-size: 0.875rem; }
+
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Cards */
+        .feature-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(14, 165, 233, 0.6);
+            background: rgba(30, 41, 59, 1);
+            transform: translateY(-4px);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(6, 182, 212, 0.2));
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #0ea5e9 0%, #06b6d4 100%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #0ea5e9;
+            border: 3px solid var(--color-bg-dark);
+            border-radius: 50%;
+            left: -2rem;
+            top: 0.25rem;
+            box-shadow: 0 0 0 2px var(--color-bg-dark), 0 0 0 4px #0ea5e9;
+        }
+
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Dividers */
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #0ea5e9, transparent);
+            margin: 1.5rem 0;
+        }
+
+        .accent-line {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #0ea5e9 0%, #06b6d4 100%);
+            border-radius: 2px;
+            margin: 1rem 0;
+        }
+
+        /* Lists */
+        ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        ul li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #0ea5e9;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(6, 182, 212, 0.2));
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #0ea5e9;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Stats Box */
+        .stat-box {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 8px;
+            background: rgba(6, 182, 212, 0.1);
+            border-left: 4px solid #06b6d4;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+        }
+
+        /* Glow Effect */
+        .glow {
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: Hero Title Slide -->
+    <section class="slide col center" style="background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);">
+        <div style="position: relative; text-align: center; z-index: 2;">
+            <div style="margin-bottom: 2rem;">
+                <span style="font-size: 3rem;">🚀</span>
+            </div>
+            <h1 class="gradient-text" style="margin-bottom: 1rem; font-size: 4rem;">MLOps Pipeline</h1>
+            <p class="text-2xl" style="color: #cbd5e1; margin-bottom: 2rem; font-weight: 300;">Orchestration Intelligente du Cycle de Vie des Modèles ML</p>
+            <div class="accent-line" style="margin: 2rem auto;"></div>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap;">
+                <span class="badge">⚙️ Airflow</span>
+                <span class="badge">📊 MLflow</span>
+                <span class="badge">📦 MinIO</span>
+                <span class="badge">🎨 Streamlit</span>
+            </div>
+            <p class="text-sm" style="color: #94a3b8; margin-top: 3rem;">Examen Final • Youssef Boutemine • 2025</p>
+        </div>
+    </section>
+
+    <!-- SLIDE 2: Contexte et Problématique -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; height: 100%;">
+            <div class="fill-height col justify-between">
+                <div>
+                    <h2 class="gradient-text mb-6" style="font-size: 2rem;">Contexte & Problématique</h2>
+                    <div class="accent-line"></div>
+                </div>
+                <div>
+                    <div style="background: rgba(14, 165, 233, 0.1); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0ea5e9;">
+                        <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.8;">
+                            Les modèles ML en production demandent une gestion <strong>automatisée, reproductible et maintenable</strong>. Sans pipeline structuré = chaos operationnel
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="fill-height col justify-between">
+                <div class="timeline text-lg" style="color: #cbd5e1;">
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9;">❌ Sans MLOps:</strong> Processus manuel, erreurs humaines, manque de traçabilité
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9;">✅ Avec MLOps:</strong> Pipeline automatisé, versionning complet, monitoring en temps réel
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9;">🎯 Cas d'Usage:</strong> Prédiction churn client avec UI interactive et entraînement périodique
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 3: What is MLOps -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">MLOps = ML + Operations</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 2rem; font-weight: 500;">Pratiques d'ingénierie logicielle appliquées aux modèles ML en production</p>
+            <div class="grid-3">
+                <div class="feature-card">
+                    <div class="icon-box" style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.1));">
+                        🔄
+                    </div>
+                    <h4 style="color: #f1f5f9; margin-bottom: 0.5rem;">Automatisation</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem;">Workflows complets orchestrés sans intervention manuelle</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));">
+                        📊
+                    </div>
+                    <h4 style="color: #f1f5f9; margin-bottom: 0.5rem;">Traçabilité</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem;">Chaque expérience enregistrée et rejouable</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));">
+                        🚀
+                    </div>
+                    <h4 style="color: #f1f5f9; margin-bottom: 0.5rem;">Déploiement</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem;">Modèles en production fiables et versionés</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 4: Stack Technologique -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Architecture Technologique</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div class="grid-2 gap-4">
+                <div class="feature-card p-8">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚙️</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.5rem;">Airflow 2.7</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;"><strong>Orchestration</strong> - DAGs, scheduling automatique, monitoring complet des workflows</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.5rem;">MLflow 2.8</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;"><strong>Tracking</strong> - Expériences, modèles, registre et comparaison de performances</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📦</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.5rem;">MinIO</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;"><strong>Stockage</strong> - S3-compatible, scalable, versioning automatique des artefacts</p>
+                </div>
+                <div class="feature-card p-8">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎨</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.5rem;">Streamlit</h4>
+                    <p style="color: #cbd5e1; font-size: 0.95rem; line-height: 1.6;"><strong>Interface</strong> - Dashboard temps réel, prédictions interactives, visualisations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 5: Architecture en Couches -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Pipeline en 4 Couches</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col center">
+            <div style="width: 100%; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding: 0 2rem;">
+                    <!-- Layer 1 -->
+                    <div style="background: rgba(14, 165, 233, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid #0ea5e9; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📥</div>
+                        <h4 style="color: #0ea5e9; font-size: 0.9rem;">Data Layer</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem;">Ingestion & Validation</p>
+                    </div>
+                    <!-- Layer 2 -->
+                    <div style="background: rgba(6, 182, 212, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid #06b6d4; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚙️</div>
+                        <h4 style="color: #06b6d4; font-size: 0.9rem;">Processing</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem;">Cleaning & Features</p>
+                    </div>
+                    <!-- Layer 3 -->
+                    <div style="background: rgba(236, 72, 153, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid #ec4899; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🧠</div>
+                        <h4 style="color: #ec4899; font-size: 0.9rem;">ML Layer</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem;">Training & Validation</p>
+                    </div>
+                    <!-- Layer 4 -->
+                    <div style="background: rgba(16, 185, 129, 0.15); padding: 1.5rem; border-radius: 12px; border: 2px solid #10b981; text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎯</div>
+                        <h4 style="color: #10b981; font-size: 0.9rem;">Inference</h4>
+                        <p style="color: #94a3b8; font-size: 0.8rem; margin-top: 0.5rem;">Predictions & UI</p>
+                    </div>
+                </div>
+                <div style="text-align: center; color: #cbd5e1; font-size: 0.9rem; margin-top: 1rem;">
+                    <svg width="80%" height="60" style="margin: 0 auto; display: block; max-width: 500px;">
+                        <polyline points="0,30 20,30 20,20 40,20 40,40 60,40 60,10 80,10" fill="none" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p>Pipeline End-to-End: Données → Modèle → Production</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 6: Airflow Orchestration -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Orchestration Airflow</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem;">
+                <div class="col justify-between">
+                    <div>
+                        <h4 style="color: #0ea5e9; margin-bottom: 1rem; font-size: 1.1rem;">DAG Pipeline</h4>
+                        <ul style="color: #cbd5e1;">
+                            <li><strong style="color: #0ea5e9;">load_data</strong> - Ingestion données</li>
+                            <li><strong style="color: #0ea5e9;">preprocess</strong> - Nettoyage</li>
+                            <li><strong style="color: #0ea5e9;">train_model</strong> - Entraînement</li>
+                            <li><strong style="color: #0ea5e9;">evaluate</strong> - Évaluation</li>
+                            <li><strong style="color: #0ea5e9;">register</strong> - Déploiement</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col justify-between">
+                    <div style="background: rgba(14, 165, 233, 0.1); padding: 2rem; border-radius: 12px; border: 1px solid rgba(14, 165, 233, 0.3);">
+                        <div style="text-align: center; color: #cbd5e1; font-family: monospace; font-size: 0.85rem;">
+                            <div style="margin-bottom: 1rem;">📊 Task Execution Flow</div>
+                            <div style="color: #0ea5e9;">├─ load_data</div>
+                            <div style="color: #0ea5e9;">│  ├─ preprocess</div>
+                            <div style="color: #0ea5e9;">│  │  ├─ train_model</div>
+                            <div style="color: #0ea5e9;">│  │  │  ├─ evaluate</div>
+                            <div style="color: #0ea5e9;">│  │  │  │  └─ register</div>
+                            <div style="color: #06b6d4; margin-top: 1rem;">✅ Pipeline Scheduled</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 7: Training & Evaluation -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Entraînement & Évaluation</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div class="grid-3">
+                <div class="feature-card p-6">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.75rem; font-size: 0.95rem;">Split Données</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;"><strong>Train:</strong> 70% • <strong>Test:</strong> 30%<br><strong>K-Fold:</strong> 5 folds</p>
+                </div>
+                <div class="feature-card p-6">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🧠</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.75rem; font-size: 0.95rem;">Modèles Testés</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Logistic Regression<br>Random Forest<br>Gradient Boosting</p>
+                </div>
+                <div class="feature-card p-6">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📈</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 0.75rem; font-size: 0.95rem;">Métriques</h4>
+                    <p style="color: #cbd5e1; font-size: 0.9rem;">Accuracy, Precision<br>Recall, F1-Score<br>AUC-ROC</p>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(14, 165, 233, 0.1)); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ec4899; margin-top: 1.5rem;">
+                <p style="color: #cbd5e1; font-size: 0.95rem;">
+                    <strong style="color: #0ea5e9;">🏆 Sélection:</strong> Meilleur modèle identifié automatiquement via F1-score sur ensemble test, sauvegardé avec tous ses artefacts dans MLflow
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 8: MLflow Tracking -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">MLflow: Tracking & Registry</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div class="feature-card p-6">
+                    <div style="font-size: 2rem; margin-bottom: 1rem; text-align: center;">📋</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 1rem; text-align: center;">Runs Tracking</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.95rem;">
+                        <li>✅ Hyperparamètres</li>
+                        <li>✅ Métriques en temps réel</li>
+                        <li>✅ Logs détaillés</li>
+                        <li>✅ Timing execution</li>
+                    </ul>
+                </div>
+                <div class="feature-card p-6">
+                    <div style="font-size: 2rem; margin-bottom: 1rem; text-align: center;">🎯</div>
+                    <h4 style="color: #0ea5e9; margin-bottom: 1rem; text-align: center;">Model Registry</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.95rem;">
+                        <li>✅ Versioning modèles</li>
+                        <li>✅ Stages: Staging/Production</li>
+                        <li>✅ Comparison interface</li>
+                        <li>✅ Rollback facile</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background: rgba(14, 165, 233, 0.1); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(14, 165, 233, 0.3); margin-top: 1.5rem;">
+                <p style="color: #cbd5e1; font-size: 0.9rem;">
+                    <strong style="color: #0ea5e9;">🔗 Backend Persistant:</strong> PostgreSQL (métadonnées) + MinIO (artefacts) = Traçabilité 100% garantie
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 9: Streamlit Interface -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Streamlit: Prédictions Interactives</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col center">
+            <div class="grid-2" style="gap: 2rem; width: 100%;">
+                <div style="background: rgba(14, 165, 233, 0.15); padding: 2rem; border-radius: 12px; border: 2px dashed #0ea5e9;">
+                    <div style="font-size: 2rem; text-align: center; margin-bottom: 1rem;">📝</div>
+                    <h4 style="color: #0ea5e9; text-align: center; margin-bottom: 1rem;">Formulaire d'Entrée</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.95rem;">
+                        <li>Sliders âge, revenus</li>
+                        <li>Selectors type contrat</li>
+                        <li>Inputs pour features</li>
+                        <li>Bouton submit</li>
+                    </ul>
+                </div>
+                <div style="background: rgba(6, 182, 212, 0.15); padding: 2rem; border-radius: 12px; border: 2px dashed #06b6d4;">
+                    <div style="font-size: 2rem; text-align: center; margin-bottom: 1rem;">⚡</div>
+                    <h4 style="color: #06b6d4; text-align: center; margin-bottom: 1rem;">Prédiction Instant</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.95rem;">
+                        <li>Load modèle MLflow</li>
+                        <li>Apply preprocessing</li>
+                        <li>Prédiction ms</li>
+                        <li>Probabilité affichée</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background: rgba(236, 72, 153, 0.1); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ec4899; margin-top: 2rem; width: 100%;">
+                <p style="color: #cbd5e1; font-size: 0.9rem; text-align: center;">
+                    <strong style="color: #0ea5e9;">🎨 Dashboard Complet:</strong> Visualisations, graphiques clients, importance features, tout en temps réel
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 10: Pipeline End-to-End -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Pipeline Complet: Bout en Bout</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div style="padding: 0 1rem;">
+                <div class="timeline" style="color: #cbd5e1; font-size: 0.95rem;">
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9; font-size: 1.05rem;">Étape 1:</strong> Airflow Scheduler déclenche automatiquement le DAG selon calendrier défini
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9; font-size: 1.05rem;">Étape 2-3:</strong> Load_data + Preprocess: nettoyage, encoding, scaling (artefacts sauvegardés)
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9; font-size: 1.05rem;">Étape 4:</strong> Train_model lance MLflow tracking: tous runs enregistrés avec métriques
+                    </div>
+                    <div class="timeline-item">
+                        <strong style="color: #0ea5e9; font-size: 1.05rem;">Étape 5:</strong> Meilleur modèle transféré en Production; Streamlit charge depuis registry
+                    </div>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(10, 165, 233, 0.1)); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.3); text-align: center;">
+                <p style="color: #10b981; font-weight: 600; font-size: 1rem;">✅ Pipeline Automatisé = Zéro Intervention Manuelle</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 11: Résultats -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Résultats & Performance</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div class="grid-2" style="gap: 1.5rem;">
+                <div class="stat-box" style="background: rgba(236, 72, 153, 0.15); border-left-color: #ec4899;">
+                    <div class="stat-number">75%+</div>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem;">F1-Score</p>
+                </div>
+                <div class="stat-box" style="background: rgba(245, 158, 11, 0.15); border-left-color: #f59e0b;">
+                    <div class="stat-number">0.82</div>
+                    <p style="color: #cbd5e1; margin-top: 0.5rem;">AUC-ROC</p>
+                </div>
+            </div>
+            <div style="background: rgba(14, 165, 233, 0.1); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0ea5e9;">
+                <h4 style="color: #0ea5e9; margin-bottom: 1rem; font-size: 1rem;">🎯 Top Features</h4>
+                <ul style="color: #cbd5e1; font-size: 0.95rem;">
+                    <li><strong style="color: #0ea5e9;">Tenure</strong> - Mois depuis adhésion (plus important)</li>
+                    <li><strong style="color: #0ea5e9;">Monthly Charges</strong> - Montant facturé mensuel</li>
+                    <li><strong style="color: #0ea5e9;">Contract Type</strong> - Type de contrat (mensuel vs annuel)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 12: Limitations & Future -->
+    <section class="slide p-16 col" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f1f5f9;">
+        <h2 class="gradient-text mb-6" style="font-size: 2rem;">Perspectives Futures</h2>
+        <div class="accent-line"></div>
+        <div class="fill-height col justify-between">
+            <div class="grid-2" style="gap: 1.5rem;">
+                <div class="feature-card p-6">
+                    <h4 style="color: #f59e0b; margin-bottom: 1rem;">⚠️ Limitations Actuelles</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.9rem;">
+                        <li>Scalabilité pour très gros volumes</li>
+                        <li>Pas de distributed training</li>
+                        <li>Pas de drift detection</li>
+                    </ul>
+                </div>
+                <div class="feature-card p-6">
+                    <h4 style="color: #10b981; margin-bottom: 1rem;">✅ Améliorations Prévues</h4>
+                    <ul style="color: #cbd5e1; font-size: 0.9rem;">
+                        <li>Drift detection & alertes</li>
+                        <li>Retraining automatique</li>
+                        <li>A/B testing modèles</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(14, 165, 233, 0.15)); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(6, 182, 212, 0.3);">
+                <h4 style="color: #06b6d4; margin-bottom: 1rem;">🚀 Long Terme</h4>
+                <p style="color: #cbd5e1; font-size: 0.95rem;">
+                    Migration cloud (AWS/GCP/Azure) • Kubernetes orchestration • Feature Store centralisé • Real-time inference à scale • CI/CD avancé
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SLIDE 13: Conclusion -->
+    <section class="slide col center" style="background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);">
+        <div style="padding: 4rem; text-align: center; max-width: 800px;">
+            <div style="margin-bottom: 2rem; font-size: 3rem;">✨</div>
+            <h2 class="gradient-text" style="margin-bottom: 2rem; font-size: 2.5rem;">Mission Accomplie</h2>
+            <div class="accent-line" style="margin: 2rem auto;"></div>
+            
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin: 2rem 0;">
+                <div style="background: rgba(14, 165, 233, 0.15); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #0ea5e9;">
+                    <p style="color: #f1f5f9; font-size: 1.1rem; line-height: 1.6;">
+                        <strong style="color: #0ea5e9;">✅ Architecture MLOps</strong> complète et production-ready avec orchestration, tracking et déploiement
+                    </p>
+                </div>
+                <div style="background: rgba(6, 182, 212, 0.15); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #06b6d4;">
+                    <p style="color: #f1f5f9; font-size: 1.1rem; line-height: 1.6;">
+                        <strong style="color: #06b6d4;">✅ Reproductibilité</strong> garantie - Chaque expérience traçable, versionée et rejouable
+                    </p>
+                </div>
+                <div style="background: rgba(236, 72, 153, 0.15); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #ec4899;">
+                    <p style="color: #f1f5f9; font-size: 1.1rem; line-height: 1.6;">
+                        <strong style="color: #ec4899;">✅ Extensibilité</strong> - Fondation solide pour monitoring, CI/CD et déploiement cloud
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(14, 165, 233, 0.2);">
+                <p class="text-sm" style="color: #94a3b8;">
+                    📊 <strong>GitHub Repository:</strong> github.com/YOUSSEF-BT/customer-mlops-pipeline
+                </p>
+                <p class="text-sm" style="color: #94a3b8; margin-top: 1rem;">
+                    Développé avec ❤️ • Docker Compose • Microservices Architecture
+                </p>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
